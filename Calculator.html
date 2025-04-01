@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFD6D6, #AEE2FF, #C7F3D0); /* Brighter Pastel Gradient */
+            font-family: 'Arial', sans-serif;
+        }
+
+        .calculator {
+            width: 320px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .display {
+            width: 90%;
+            height: 70px;
+            background: #C7F3D0; /* Brighter Mint */
+            font-size: 2em;
+            text-align: right;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            height: 60px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        .number {
+            background: #FFD6D6; /* Brighter Peach */
+            color: #333;
+        }
+
+        .operator {
+            background: #AEE2FF; /* Brighter Sky Blue */
+            color: #333;
+        }
+
+        .equal {
+            background: #C7F3D0; /* Brighter Mint */
+            font-weight: bold;
+        }
+
+        .clear {
+            background: #FFB3B3; /* Brighter Soft Red */
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <h1>CALCULATOR</h1>
+        <input type="text" id="display" class="display" disabled>
+        <div class="buttons">
+            <button class="number" onclick="appendNumber('7')">7</button>
+            <button class="number" onclick="appendNumber('8')">8</button>
+            <button class="number" onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="appendOperator('/')">÷</button>
+
+            <button class="number" onclick="appendNumber('4')">4</button>
+            <button class="number" onclick="appendNumber('5')">5</button>
+            <button class="number" onclick="appendNumber('6')">6</button>
+            <button class="operator" onclick="appendOperator('*')">×</button>
+
+            <button class="number" onclick="appendNumber('1')">1</button>
+            <button class="number" onclick="appendNumber('2')">2</button>
+            <button class="number" onclick="appendNumber('3')">3</button>
+            <button class="operator" onclick="appendOperator('-')">−</button>
+
+            <button class="number" onclick="appendNumber('0')">0</button>
+            <button class="number" onclick="appendNumber('.')">.</button>
+            <button class="equal" onclick="calculateResult()">=</button>
+            <button class="operator" onclick="appendOperator('+')">+</button>
+
+            <button class="clear" onclick="clearDisplay()" style="grid-column: span 4;">C</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById("display");
+
+        function appendNumber(number) {
+            display.value += number;
+        }
+
+        function appendOperator(operator) {
+            display.value += " " + operator + " ";
+        }
+
+        function calculateResult() {
+            try {
+                display.value = eval(display.value);
+            } catch {
+                display.value = "Error";
+            }
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        // Keyboard Support
+        document.addEventListener("keydown", function(event) {
+            let key = event.key;
+            if (!isNaN(key) || key === ".") appendNumber(key);
+            else if (["+", "-", "*", "/"].includes(key)) appendOperator(key);
+            else if (key === "Enter") calculateResult();
+            else if (key === "Backspace") display.value = display.value.slice(0, -1);
+            else if (key === "Escape") clearDisplay();
+        });
+    </script>
+
+</body>
+</html>
